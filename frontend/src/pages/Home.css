@@ -1,0 +1,11 @@
+.video-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; 
+    gap: 30px;
+    padding: 10px;
+  }
+
+  .video {
+    height: 100vh;
+  }
