@@ -15,7 +15,7 @@ function Home() {
             setVideos(response.data); 
           })
           .catch(error => {
-            console.error('Erro ao buscar URLs da API:', error);
+            console.error('Error fetching API URLs:', error);
           });
       }, []);
 

@@ -3,27 +3,74 @@ import { useParams } from "react-router-dom"
 import axios from 'axios'
 import './Video.css'
 
-
 function Video() {
     const { idVideo } = useParams()
-    const [video, setVideo] = useState([]);
+    const [selectedVideo, setSelectedVideo] = useState([]);
+
     useEffect(() => {
         axios.get(`http://localhost:3000/videos/${idVideo}`)
             .then(response => {
-                setVideo(response.data);
+                setSelectedVideo(response.data);
             })
             .catch(error => {
-                console.error('Erro ao buscar URLs da API:', error);
+                console.error('Error fetching API URLs:', error);
             });
     }, []);
 
-    console.log(video.url)
+    useEffect(() => {
+        const handleKeyPress = (event) => {
+          if (event.key === 'ArrowUp' || event.keyCode === 38 ) { 
+            changeVideo(); 
+          }
+        };
+        window.addEventListener('keydown', handleKeyPress);
+        return () => {
+          window.removeEventListener('keydown', handleKeyPress);
+        };
+      }, []); 
+    
+    const changeVideo = () => {
+        axios.get('http://localhost:3000/videos')
+          .then(response => {
+            let randomNumber = Math.floor(Math.random() * 3);
+            setSelectedVideo(response.data[randomNumber])
+          })
+          .catch(error => {
+            console.error('Error fetching API URLs:', error);
+          });
+    }
+
+    useEffect(() => {
+        const videoElement = document.querySelector('.iframe');
+        if (videoElement) {
+            videoElement.addEventListener('loadedmetadata', () => {
+                if (videoElement.requestFullscreen) {
+                    videoElement.requestFullscreen();
+                } else if (videoElement.mozRequestFullScreen) {
+                    videoElement.mozRequestFullScreen();
+                } else if (videoElement.webkitRequestFullscreen) {
+                    videoElement.webkitRequestFullscreen();
+                }
+            });
+        }
+
+        return () => {
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+            } else if (document.mozCancelFullScreen) {
+                document.mozCancelFullScreen();
+            } else if (document.webkitExitFullscreen) {
+                document.webkitExitFullscreen();
+            }
+        };
+    }, [selectedVideo]);
+
     return (
         <div className="video">
-                <iframe className="iframe" src={video.url} frameborder="0"/>
+            <video className="iframe" src={selectedVideo.url} autoPlay />
         </div>
     );
 }
 
-
 export default Video;
+    
