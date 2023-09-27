@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useParams } from "react-router-dom"
+import { useNavigate } from "react-router-dom";
 import axios from 'axios'
 import './Video.css'
 
 function Video() {
+     const navigate = useNavigate();
     const { idVideo } = useParams()
     const [selectedVideo, setSelectedVideo] = useState([]);
 
@@ -15,19 +17,22 @@ function Video() {
             .catch(error => {
                 console.error('Error fetching API URLs:', error);
             });
+
+            const handleKeyPress = (event) => {
+                if (event.key === 'ArrowUp' || event.keyCode === 38) {
+                    changeVideo();
+                }
+                if (event.key === '1' || event.keyCode === 97) {
+                    backToHome();
+                }
+            };
+            window.addEventListener('keydown', handleKeyPress);
+            return () => {
+                window.removeEventListener('keydown', handleKeyPress);
+            };
     }, []);
 
-    useEffect(() => {
-        const handleKeyPress = (event) => {
-            if (event.key === 'ArrowUp' || event.keyCode === 38) {
-                changeVideo();
-            }
-        };
-        window.addEventListener('keydown', handleKeyPress);
-        return () => {
-            window.removeEventListener('keydown', handleKeyPress);
-        };
-    }, []);
+  
 
     const changeVideo = () => {
         axios.get('http://localhost:3000/videos')
@@ -40,7 +45,9 @@ function Video() {
           });
     }
 
-
+    const backToHome = () => {
+        navigate(`/`);
+    } 
 
     useEffect(() => {
         const videoElement = document.querySelector('.iframe');
