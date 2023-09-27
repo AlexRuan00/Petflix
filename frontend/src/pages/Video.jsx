@@ -19,26 +19,28 @@ function Video() {
 
     useEffect(() => {
         const handleKeyPress = (event) => {
-          if (event.key === 'ArrowUp' || event.keyCode === 38 ) { 
-            changeVideo(); 
-          }
+            if (event.key === 'ArrowUp' || event.keyCode === 38) {
+                changeVideo();
+            }
         };
         window.addEventListener('keydown', handleKeyPress);
         return () => {
-          window.removeEventListener('keydown', handleKeyPress);
+            window.removeEventListener('keydown', handleKeyPress);
         };
-      }, []); 
-    
+    }, []);
+
     const changeVideo = () => {
         axios.get('http://localhost:3000/videos')
           .then(response => {
-            let randomNumber = Math.floor(Math.random() * 3);
+            let randomNumber = Math.floor(Math.random() * response.data.length);
             setSelectedVideo(response.data[randomNumber])
           })
           .catch(error => {
             console.error('Error fetching API URLs:', error);
           });
     }
+
+
 
     useEffect(() => {
         const videoElement = document.querySelector('.iframe');
@@ -54,23 +56,14 @@ function Video() {
             });
         }
 
-        return () => {
-            if (document.exitFullscreen) {
-                document.exitFullscreen();
-            } else if (document.mozCancelFullScreen) {
-                document.mozCancelFullScreen();
-            } else if (document.webkitExitFullscreen) {
-                document.webkitExitFullscreen();
-            }
-        };
+        
     }, [selectedVideo]);
 
     return (
         <div className="video">
-            <video className="iframe" src={selectedVideo.url} autoPlay />
+            <video className="iframe" src={selectedVideo.url} autoPlay loop/>
         </div>
     );
 }
 
 export default Video;
-    

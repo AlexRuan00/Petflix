@@ -19,6 +19,25 @@ function Home() {
           });
       }, []);
 
+      useEffect(() => {
+        const handleKeyPress = (event) => {
+            if (event.key === 'ArrowUp' || event.keyCode === 38) {
+                surf();
+            }
+        };
+        window.addEventListener('keydown', handleKeyPress);
+        return () => {
+            window.removeEventListener('keydown', handleKeyPress);
+        };
+    }, []);
+
+    const surf = () => {
+        console.log('clicou')
+        return (
+            <Link to="/video/650c78eb064ae6e090fa44a8" >
+            </Link>
+          );
+    }
 
     return (
         <div className="Home">
@@ -26,7 +45,7 @@ function Home() {
             <div className='video-container'>
                 {videos.map((e) => (
                     <Link to={`/video/${e._id}`} key={e._id}>
-                        <VideoCard />
+                        <VideoCard img={e.urlImage}/>
                     </Link>
                 ))}
             </div>
