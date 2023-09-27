@@ -3,6 +3,7 @@ import mongoose from "mongoose"
 const videoSchema = new mongoose.Schema ({
     id: { type: mongoose.Schema.Types.ObjectId },
     url: { type: String, required: true },
+    urlImage: { type: String, required: true },
     category: { type: String, required: true  }
 }, { versionKey: false });
 
