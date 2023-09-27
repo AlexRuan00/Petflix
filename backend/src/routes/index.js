@@ -1,10 +1,17 @@
 import express from "express";
 import videos from "./videosRoutes.js";
+import cors from "cors";
 
 const routes = (app) => {
-  app.route("/").get((req, res) => res.status(200).send("Petflix API"));
+    const corsOptions = {
+        origin: 'http://localhost:5173',
+    };
 
-  app.use(express.json(), videos);
+    app.use(cors(corsOptions));
+
+    app.route("/").get((req, res) => res.status(200).send("Petflix API"));
+
+    app.use(express.json(), videos);
 };
 
 export default routes;
