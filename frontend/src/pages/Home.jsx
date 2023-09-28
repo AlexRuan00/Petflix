@@ -11,7 +11,7 @@ import './Home.css'
 let videosCatForUse = []
 let videosDogForUse = []
 let videosSwitch = false;
-let route = '/video'
+let route = '/dog'
 function Home() {
     const [animal, setAnimal] = useState(false);
     const [videos, setVideos] = useState([]);
@@ -62,7 +62,7 @@ function Home() {
         if (!videosSwitch) {
             let randomNumber = Math.floor(Math.random() * videosDogForUse.length);
             let id = videosDogForUse[randomNumber]._id
-            navigate(`/video/${id}`);
+            navigate(`/dog/${id}`);
         }
 
 
@@ -76,7 +76,7 @@ function Home() {
             setCatVideos()
             return
         }
-        route ='/video'
+        route ='/dog'
         setAnimal(false)
         setDogVideos()
     }
