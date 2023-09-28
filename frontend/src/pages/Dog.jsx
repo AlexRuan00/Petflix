@@ -2,9 +2,9 @@ import { useState, useEffect } from 'react';
 import { useParams } from "react-router-dom"
 import { useNavigate } from "react-router-dom";
 import axios from 'axios'
-import './Video.css'
+import './Dog.css'
 
-function Video() {
+function Dog() {
     let videos = [];
     let currentVideo;
     const navigate = useNavigate();
@@ -107,4 +107,4 @@ function Video() {
     );
 }
 
-export default Video;
+export default Dog;
