@@ -2,9 +2,9 @@ import { useState, useEffect } from 'react';
 import { useParams } from "react-router-dom"
 import { useNavigate } from "react-router-dom";
 import axios from 'axios'
-import './Video.css'
+import './Cat.css'
 
-function Video() {
+function Cat() {
     let videos = [];
     let currentVideo;
     const navigate = useNavigate();
@@ -21,7 +21,7 @@ function Video() {
                 console.error('Error fetching API URLs:', error);
             });
 
-        axios.get('http://localhost:3000/dog')
+        axios.get('http://localhost:3000/cat')
             .then(response => {
                 videos = response.data
             })
@@ -107,4 +107,4 @@ function Video() {
     );
 }
 
-export default Video;
+export default Cat;

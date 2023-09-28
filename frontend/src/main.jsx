@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import Home from './pages/Home.jsx'
 import Video from './pages/Video.jsx'
+import Cat from './pages/Cat.jsx'
 import './index.css'
 
 
@@ -10,6 +11,7 @@ import './index.css'
 const router = createBrowserRouter([
   { path: '/', element: <Home /> },
   { path: '/video/:idVideo', element: <Video /> },
+  { path: '/cat/:idVideo', element: <Cat /> }
 ])
 
 

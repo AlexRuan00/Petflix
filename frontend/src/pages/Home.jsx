@@ -8,11 +8,14 @@ import { BiSolidCat } from "react-icons/bi";
 import { BiSolidDog } from "react-icons/bi";
 import './Home.css'
 
-
+let videosCatForUse = []
+let videosDogForUse = []
 let videosSwitch = false;
+let route = '/video'
 function Home() {
+    const [animal, setAnimal] = useState(false);
     const [videos, setVideos] = useState([]);
-    let videosForUse = []
+   
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -31,37 +34,50 @@ function Home() {
 
     const setDogVideos = () => {
         axios.get('http://localhost:3000/dog')
-        .then(response => {
-            setVideos(response.data);
-            videosForUse = response.data
-        })
-        .catch(error => {
-            console.error('Error fetching API URLs:', error);
-        });
+            .then(response => {
+                setVideos(response.data);
+                videosDogForUse = response.data
+            })
+            .catch(error => {
+                console.error('Error fetching API URLs:', error);
+            });
     }
 
     const setCatVideos = () => {
         axios.get('http://localhost:3000/cat')
-        .then(response => {
-            setVideos(response.data);
-            videosForUse = response.data
-        })
-        .catch(error => {
-            console.error('Error fetching API URLs:', error);
-        });
+            .then(response => {
+                setVideos(response.data);
+                videosCatForUse = response.data
+            })
+            .catch(error => {
+                console.error('Error fetching API URLs:', error);
+            });
     }
     const surf = () => {
-        let randomNumber = Math.floor(Math.random() * videosForUse.length);
-        let id = videosForUse[randomNumber]._id
-        navigate(`/video/${id}`);
+        if (videosSwitch) {
+            let randomNumber = Math.floor(Math.random() * videosCatForUse.length);
+            let id = videosCatForUse[randomNumber]._id
+            navigate(`/cat/${id}`);
+        }
+        if (!videosSwitch) {
+            let randomNumber = Math.floor(Math.random() * videosDogForUse.length);
+            let id = videosDogForUse[randomNumber]._id
+            navigate(`/video/${id}`);
+        }
+
+
     }
     const teste = () => {
         videosSwitch = !videosSwitch
         console.log(videosSwitch)
-        if(videosSwitch){
+        if (videosSwitch) {
+            route = '/cat'
+            setAnimal(true)
             setCatVideos()
             return
         }
+        route ='/video'
+        setAnimal(false)
         setDogVideos()
     }
     return (
@@ -69,20 +85,20 @@ function Home() {
             <Banner />
             <div className='video-container'>
                 {videos.map((e) => (
-                    <Link to={`/video/${e._id}`} key={e._id}>
+                    <Link to={`${route}/${e._id}`} key={e._id}>
                         <VideoCard img={e.urlImage} />
                     </Link>
                 ))}
             </div>
             <label className="floating-button">
                 <Toggle
-                    defaultChecked={false}
+                    defaultChecked={animal}
                     icons={{
-                        checked: <BiSolidCat/>,
-                        unchecked:<BiSolidDog/>,
-                      }}
+                        checked: <BiSolidCat />,
+                        unchecked: <BiSolidDog />,
+                    }}
 
-                      onChange={teste} />
+                    onChange={teste} />
             </label>
         </div>
     );
