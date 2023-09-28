@@ -10,8 +10,14 @@ describe('Petflix', () => {
 
     it('Abrir o primeiro vídeo com a tecla', () => {
         cy.visit('http://localhost:5173/')
-        cy.get('body').type('{uparrow}');
-        // cy.get('video').should('exist');
-      
+        cy.get('body').type('Cypress.io{uparrow}');
+        cy.get('video').should('exist');
+    })
+    
+    it('Abrir algum vídeo e verificar se volta para a home', () => {
+        cy.visit('http://localhost:5173/')
+        cy.get('body').type('Cypress.io{uparrow}');
+        cy.get('video').should('exist');
+        cy.get('body').type('Cypress.io{1}');
     })
 }) 
