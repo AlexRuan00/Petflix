@@ -7,6 +7,18 @@ class VideoController {
         res.status(200).json(videosList);
     }
 
+    static async listDogVideos(req, res) {
+        const videosList = await video.find({});
+        const dogVideos = videosList.filter(e => e.category === "dog");
+        res.status(200).json(dogVideos);
+    }
+
+    static async listCatVideos(req, res) {
+        const videosList = await video.find({});
+        const catVideos = videosList.filter(e => e.category === "cat");
+        res.status(200).json(catVideos);
+    }
+
     static async listVideoById(req, res) {
         const videoId = req.params.videoId;
 
